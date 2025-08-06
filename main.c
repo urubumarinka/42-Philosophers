@@ -6,7 +6,7 @@
 /*   By: maborges <maborges@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:24:48 by maborges          #+#    #+#             */
-/*   Updated: 2025/07/24 14:32:37 by maborges         ###   ########.fr       */
+/*   Updated: 2025/08/06 19:01:31 by maborges         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,12 @@
 
 int	main(int ac, char **av)
 {
+	t_table	table;
+
 	if (ac == 5 || ac == 6)
 	{
-
+		if (!parsing_args(av, &table));
 	}
 	else
-	{
-		error_msg("Usage: must have 4 or 5 args");
-		return (1);
-	}
+		error_msg(GREEN"Usage: must have 4 or 5 args"RESET);
 }

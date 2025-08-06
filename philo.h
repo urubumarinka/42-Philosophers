@@ -6,7 +6,7 @@
 /*   By: maborges <maborges@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 12:41:51 by maborges          #+#    #+#             */
-/*   Updated: 2025/07/24 14:21:35 by maborges         ###   ########.fr       */
+/*   Updated: 2025/08/06 19:04:09 by maborges         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,20 @@
 #include <sys/time.h> // gettimeofday
 #include <limits.h> //INT_MAX
 
+// COLORS
+
+#define RESET		"\033[0m"
+#define BLACK		"\033[30m"
+#define RED		"\033[31m"
+#define GREEN		"\033[32m"
+#define YELLOW		"\033[33m"
+#define BLUE		"\033[34m"
+#define MAGENTA	"\033[35m"
+#define CYAN		"\033[36m"
+#define WHITE		"\033[37m"
+
 typedef pthread_mutex_t	t_mtx;
+typedef struct s_table	t_table;
 
 //STRUCT FORK
 
@@ -56,3 +69,7 @@ typedef struct s_table
 	t_fork		*forks; //array of forks
 	t_philo		*philos; //arrray of philos
 }	t_table;
+
+// Error Handlers and Free functions
+
+void	error_msg(const char *error);
