@@ -6,7 +6,7 @@
 /*   By: maborges <maborges@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 12:41:51 by maborges          #+#    #+#             */
-/*   Updated: 2025/08/06 19:04:09 by maborges         ###   ########.fr       */
+/*   Updated: 2025/08/06 19:18:36 by maborges         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,4 @@ typedef struct s_table
 
 // Error Handlers and Free functions
 
-void	error_msg(const char *error);
+void	error_msg(const char *error, int return_value);
