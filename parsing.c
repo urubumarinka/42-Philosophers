@@ -6,7 +6,7 @@
 /*   By: maborges <maborges@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 18:43:50 by maborges          #+#    #+#             */
-/*   Updated: 2025/08/07 17:20:16 by maborges         ###   ########.fr       */
+/*   Updated: 2025/08/12 20:35:18 by maborges         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ static int	char_checker(char *str)
 	while (*str)
 	{
 		if (*str == '-')
-			return (0);
+			return (1);
 		else if (*str < '0' || *str > '9')
-			return (0);
+			return (1);
 		else
 		{
 			digit_count++;
@@ -33,8 +33,8 @@ static int	char_checker(char *str)
 		}
 	}
 	if (digit_count > 10)
-		return (0);
-	return (1);
+		return (1);
+	return (0);
 }
 
 long	ft_atol(char *str)
@@ -73,11 +73,11 @@ int	parsing_args(char **av, t_table *table)
 	table->nbr_must_eat = -1;
 	while (av[++i])
 	{
-		if (!char_checker(av[i]))
-			return (error_msg("Inputs must be positive integers"), 0);
+		if (char_checker(av[i]))
+			return (error_msg("Inputs must be positive integers"), 1);
 		result = ft_atol(av[i]);
 		if (result == -1)
-			return (0);
+			return (1);
 		else if (i == 1)
 			table->philo_nbr = result;
 		else if (i == 2)
@@ -89,5 +89,5 @@ int	parsing_args(char **av, t_table *table)
 		else if (i == 5)
 			table->nbr_must_eat = result;
 	}
-	return (1);
+	return (0);
 }

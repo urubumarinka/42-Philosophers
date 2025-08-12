@@ -6,7 +6,7 @@
 /*   By: maborges <maborges@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 19:47:22 by maborges          #+#    #+#             */
-/*   Updated: 2025/08/12 20:16:51 by maborges         ###   ########.fr       */
+/*   Updated: 2025/08/12 22:34:54 by maborges         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@ int	data_init(t_table *table)
 	if (!table->philos == NULL)
 	{
 		error_msg("malloc failed");
-		return (0);
+		return (1);
 	}
+	//call here safe_mutex? sucess return is 0
 
 
 }

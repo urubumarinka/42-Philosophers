@@ -6,7 +6,7 @@
 /*   By: maborges <maborges@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 12:41:51 by maborges          #+#    #+#             */
-/*   Updated: 2025/08/12 20:27:21 by maborges         ###   ########.fr       */
+/*   Updated: 2025/08/12 22:38:41 by maborges         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 #include <pthread.h> // threads: create join detach ; mutex: init dstry (un)lock
 #include <sys/time.h> // gettimeofday
 #include <limits.h> //INT_MAX
+#include <errno.h> // handle system call errors
 
 //=============================================================================/
 //								ANSI SCAPE CODES                               /
@@ -49,7 +50,7 @@ typedef struct s_table	t_table;
 
 //ENUMS
 //Enum Mutexes
-typedef enum 	mtx_code
+typedef enum 	opcode
 {
 	INIT,
 	DESTROY,
@@ -58,7 +59,7 @@ typedef enum 	mtx_code
 	CREATE,
 	JOIN,
 	DETACH
-}	t_mtx_code;
+}	t_opcode;
 
 
 //=============================================================================/
@@ -109,7 +110,7 @@ typedef struct s_table
 // Error Handlers, Free functions and safety handlers
 
 void		error_msg(const char *error);
-void		*safe_malloc (size_t bytes);
+int			safe_mutex(t_mtx *mutex, t_opcode mtx_code);
 
 
 // Utils functions

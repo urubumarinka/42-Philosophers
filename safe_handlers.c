@@ -6,26 +6,78 @@
 /*   By: maborges <maborges@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 19:51:55 by maborges          #+#    #+#             */
-/*   Updated: 2025/08/12 20:17:32 by maborges         ###   ########.fr       */
+/*   Updated: 2025/08/12 23:00:55 by maborges         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	*safe_mutex(t_mtx *mutex, t_mtx_code mtx_code)
+static int	handle_mutex_error(int status, t_opcode opcode)
 {
-	if (mtx_code == INIT)
-		pthread_mutex_init(mutex, NULL);
-	else if (mtx_code == DESTROY)
-		pthread_mutex_destroy(mutex);
-	else if (mtx_code == LOCK)
-		pthread_mutex_lock(mutex);
-	else if (mtx_code == UNLOCK)
-		pthread_mutex_unlock(mutex);
+	if (status == EINVAL && opcode == LOCK || opcode == UNLOCK
+		|| opcode == DESTROY)
+		error_msg("The value specified by mutex is invalid.");
+	else if (status == EINVAL && opcode == INIT)
+		error_msg("The value specified by attr is invalid.");
+	else if (status == EDEADLK)
+		error_msg("Deadlock would occur if thread blocked waiting for mutex.");
+	else if (status == EBUSY)
+		error_msg("Mutex is locked");
+	else if (status == EPERM)
+		error_msg("The current thread does not hold a lock on mutex.");
+	else if (status == ENOMEM)
+		error_msg("Process cant alloc enough memory to create another mutex.");
+	else
+		return (0);
+	return (1);
+}
+
+int	safe_mutex(t_mtx *mutex, t_opcode opcode)
+{
+	if (opcode == INIT)
+		return (handle_mutex_error(pthread_mutex_init(mutex, NULL), opcode));
+	else if (opcode == DESTROY)
+		return (handle_mutex_error(pthread_mutex_destroy(mutex), opcode));
+	else if (opcode == LOCK)
+		return (handle_mutex_error(pthread_mutex_lock(mutex), opcode));
+	else if (opcode == UNLOCK)
+		return (handle_mutex_error(pthread_mutex_unlock(mutex), opcode));
+	return (0);
+}
+
+static void	handle_thread_error(int status, t_opcode opcode)
+{
+	if (status == EINVAL && opcode == CREATE)
+		error_msg("The value specified by attr is invalid.");
+	else if (status == EINVAL && (opcode == JOIN || opcode == DETACH))
+		error_msg("The value specified by is not joinable");
+	else if (status == EDEADLK)
+		error_msg("Deadlock was detected or the value of thread specifies calling thread");
+	else if (status == EAGAIN)
+		error_msg("The system lacked necessary resources to create another thread");
+	else if (status == EPERM)
+		error_msg(" The caller does not have appropriate permission");
+	else if (status == ESRCH)
+		error_msg("No thread could be found corresponding to that specified by the given thread ID");
+	else
+		return (0);
+	return (1);
+}
+
+
+// Attention here: to be continued
+int	safe_thread(pthread_t *thread, void *(*foo)(void *)), void *data, t_opcode opcode)
+{
+	if (opcode == CREATE)
+		handle_thread_error(pthread_create(thread, NULL, foo, data), opcode);
+	else if (opcode == JOIN)
+		handle_thread_error(pthread_join(*thread, NULL), opcode);
+	else if (opcode == DETACH)
+		handle_thread_error(pthread_detach(*thread), opcode);
 	else
 	{
-		error_msg("wrong mtx_code for mtx handler");
-		return (0);
+		error_msg("Wrong opcode for thread_handle: use <CREATE> <JOIN> <DETACH>");
+		return ()
 	}
 
 }
