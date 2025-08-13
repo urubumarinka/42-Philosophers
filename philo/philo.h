@@ -6,7 +6,7 @@
 /*   By: maborges <maborges@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 12:41:51 by maborges          #+#    #+#             */
-/*   Updated: 2025/08/12 22:38:41 by maborges         ###   ########.fr       */
+/*   Updated: 2025/08/13 22:33:38 by maborges         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,28 +18,28 @@
 //								Librariy Headers                               /
 //=============================================================================/
 
-#include <stdio.h> //printf
-#include <stdlib.h> // malloc ; free
-#include <unistd.h> // write, usleep
-#include <stdbool.h> // boolean
-#include <pthread.h> // threads: create join detach ; mutex: init dstry (un)lock
-#include <sys/time.h> // gettimeofday
-#include <limits.h> //INT_MAX
-#include <errno.h> // handle system call errors
+# include <stdio.h> //printf
+# include <stdlib.h> // malloc ; free
+# include <unistd.h> // write, usleep
+# include <stdbool.h> // boolean
+# include <pthread.h> // threads: create join detach ;mutex: init dstry (un)lock
+# include <sys/time.h> // gettimeofday
+# include <limits.h> //INT_MAX
+# include <errno.h> // handle system call errors
 
 //=============================================================================/
 //								ANSI SCAPE CODES                               /
 //=============================================================================/
 
-#define RESET		"\033[0m"
-#define BLACK		"\033[30m"
-#define RED		"\033[31m"
-#define GREEN		"\033[32m"
-#define YELLOW		"\033[33m"
-#define BLUE		"\033[34m"
-#define MAGENTA	"\033[35m"
-#define CYAN		"\033[36m"
-#define WHITE		"\033[37m"
+# define RESET		"\033[0m"
+# define BLACK		"\033[30m"
+# define RED		"\033[31m"
+# define GREEN		"\033[32m"
+# define YELLOW		"\033[33m"
+# define BLUE		"\033[34m"
+# define MAGENTA	"\033[35m"
+# define CYAN		"\033[36m"
+# define WHITE		"\033[37m"
 
 //=============================================================================/
 //								VARIABLES & TYPEDEFS                           /
@@ -50,7 +50,7 @@ typedef struct s_table	t_table;
 
 //ENUMS
 //Enum Mutexes
-typedef enum 	opcode
+typedef enum opcode
 {
 	INIT,
 	DESTROY,
@@ -60,7 +60,6 @@ typedef enum 	opcode
 	JOIN,
 	DETACH
 }	t_opcode;
-
 
 //=============================================================================/
 //								STRUCTS                                        /
@@ -111,6 +110,9 @@ typedef struct s_table
 
 void		error_msg(const char *error);
 int			safe_mutex(t_mtx *mutex, t_opcode mtx_code);
+int			safe_thread(pthread_t *thread, void *(*foo)(void *),
+				void *data, t_opcode opcode);
+
 
 
 // Utils functions
