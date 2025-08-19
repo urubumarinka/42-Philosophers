@@ -6,13 +6,12 @@
 /*   By: maborges <maborges@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 12:41:51 by maborges          #+#    #+#             */
-/*   Updated: 2025/08/13 22:33:38 by maborges         ###   ########.fr       */
+/*   Updated: 2025/08/18 18:54:50 by maborges         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
-
 
 //=============================================================================/
 //								Librariy Headers                               /
@@ -98,8 +97,9 @@ typedef struct s_table
 	long		nbr_must_eat; //[opt arg] | FLAG if -1
 	long		start_simulation;
 	bool		end_simulation; //when philo dies or all philos full
+	bool		all_threads_ready;
 	t_fork		*forks; //array of forks
-	t_philo		*philos; //arrray of philos
+	t_philo		*philos; //array of philos
 }	t_table;
 
 //=============================================================================/
@@ -112,8 +112,7 @@ void		error_msg(const char *error);
 int			safe_mutex(t_mtx *mutex, t_opcode mtx_code);
 int			safe_thread(pthread_t *thread, void *(*foo)(void *),
 				void *data, t_opcode opcode);
-
-
+void		*safe_malloc(size_t size);
 
 // Utils functions
 
@@ -123,6 +122,5 @@ long		ft_atol(char *str);
 //data_init
 
 int			data_init(t_table *table);
-
 
 #endif

@@ -1,14 +1,18 @@
 NAME = philo
 
 CC = cc
-CFLAGS = -g -pthread -Wall -Werror -Wextra
+CFLAGS = -g -pthread -Wall -Werror -Wextra -I$(INC)
+
+INC = ./inc/
 
 REMOVE = rm -f
 
 SRCS = \
-./main.c \
-./utils.c \
-./parsing.c \
+./srcs/main.c \
+./srcs/utils.c \
+./srcs/parsing.c \
+./srcs/data_init.c \
+./srcs/safe_handlers.c
 
 OBJS = $(SRCS:.c=.o)
 
@@ -25,7 +29,7 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	@echo "$(CYAN)Linking philo...$(RESET)"
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
-	@echo "$(GREEN)push_swap executable created successfully!$(RESET)"
+	@echo "$(GREEN)Philosophers executable created successfully!$(RESET)"
 
 %.o: %.c
 	@echo "$(CYAN)Compiling $<...$(RESET)"
@@ -34,12 +38,10 @@ $(NAME): $(OBJS)
 clean:
 	@echo "$(YELLOW)Cleaning object files...$(RESET)"
 	$(REMOVE) $(OBJS)
-	$(MAKE) -C clean
 
 fclean: clean
 	@echo "$(YELLOW)Removing executables...$(RESET)"
 	$(REMOVE) $(NAME)
-	$(MAKE) -C fclean
 
 re: fclean all
 

@@ -6,11 +6,11 @@
 /*   By: maborges <maborges@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 19:51:55 by maborges          #+#    #+#             */
-/*   Updated: 2025/08/13 22:35:47 by maborges         ###   ########.fr       */
+/*   Updated: 2025/08/18 19:20:59 by maborges         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../inc/philo.h"
 
 static int	handle_mutex_error(int status, t_opcode opcode)
 {
@@ -32,19 +32,6 @@ static int	handle_mutex_error(int status, t_opcode opcode)
 	return (1);
 }
 
-int	safe_mutex(t_mtx *mutex, t_opcode opcode)
-{
-	if (opcode == INIT)
-		return (handle_mutex_error(pthread_mutex_init(mutex, NULL), opcode));
-	else if (opcode == DESTROY)
-		return (handle_mutex_error(pthread_mutex_destroy(mutex), opcode));
-	else if (opcode == LOCK)
-		return (handle_mutex_error(pthread_mutex_lock(mutex), opcode));
-	else if (opcode == UNLOCK)
-		return (handle_mutex_error(pthread_mutex_unlock(mutex), opcode));
-	return (0);
-}
-
 static int	handle_thread_error(int status, t_opcode opcode)
 {
 	if (status == EINVAL && opcode == CREATE)
@@ -64,7 +51,31 @@ static int	handle_thread_error(int status, t_opcode opcode)
 	return (1);
 }
 
+void	*safe_malloc(size_t size)
+{
+	void	*memory;
 
+	memory = malloc(size);
+	if (!memory)
+	{
+		error_msg("malloc failed");
+		return (NULL);
+	}
+	return (memory);
+}
+
+int	safe_mutex(t_mtx *mutex, t_opcode opcode)
+{
+	if (opcode == INIT)
+		return (handle_mutex_error(pthread_mutex_init(mutex, NULL), opcode));
+	else if (opcode == DESTROY)
+		return (handle_mutex_error(pthread_mutex_destroy(mutex), opcode));
+	else if (opcode == LOCK)
+		return (handle_mutex_error(pthread_mutex_lock(mutex), opcode));
+	else if (opcode == UNLOCK)
+		return (handle_mutex_error(pthread_mutex_unlock(mutex), opcode));
+	return (0);
+}
 
 int	safe_thread(pthread_t *thread, void *(*foo)(void *), void *data,
 				t_opcode opcode)

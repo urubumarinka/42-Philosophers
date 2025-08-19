@@ -6,11 +6,11 @@
 /*   By: maborges <maborges@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 18:43:50 by maborges          #+#    #+#             */
-/*   Updated: 2025/08/12 20:35:18 by maborges         ###   ########.fr       */
+/*   Updated: 2025/08/18 19:20:54 by maborges         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../inc/philo.h"
 
 static int	char_checker(char *str)
 {
@@ -81,11 +81,11 @@ int	parsing_args(char **av, t_table *table)
 		else if (i == 1)
 			table->philo_nbr = result;
 		else if (i == 2)
-			table->time_to_die = result;
+			table->time_to_die = result * 1000;
 		else if (i == 3)
-			table->time_to_eat = result;
+			table->time_to_eat = result * 1000;
 		else if (i == 4)
-			table->time_to_sleep = result;
+			table->time_to_sleep = result * 1000;
 		else if (i == 5)
 			table->nbr_must_eat = result;
 	}
