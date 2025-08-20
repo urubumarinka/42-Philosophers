@@ -1,32 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   dinner_start.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maborges <maborges@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/24 14:24:48 by maborges          #+#    #+#             */
-/*   Updated: 2025/08/20 14:58:03 by maborges         ###   ########.fr       */
+/*   Created: 2025/08/20 14:58:28 by maborges          #+#    #+#             */
+/*   Updated: 2025/08/20 20:00:13 by maborges         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-int	main(int ac, char **av)
+int	dinner_start(t_table *table)
 {
-	t_table	table;
-
-	if (ac == 5 || ac == 6)
-	{
-		if (parsing_args(av, &table) || data_init(&table))
-			return (1);
-		if (dinner_start(&table)) //TODO
-			return (1);
-		if (destroy_and_clean(&table)) //TODO
-			return (1);
-	}
+	// set all_ready flag
+	// table->start_somulation = now_ms();
+	if (table->nbr_must_eat == 0)
+		return (1);
+	if (table->philo_nbr == 1)
+		one_philo_routine(table);
 	else
-		return (error_msg("Usage: must have 4 or 5 args\n"), 1);
-
+		create_philos(table); //TODO
 	return (0);
 }

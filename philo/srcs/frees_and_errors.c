@@ -1,32 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maborges <maborges@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/24 14:24:48 by maborges          #+#    #+#             */
-/*   Updated: 2025/08/20 14:58:03 by maborges         ###   ########.fr       */
+/*   Created: 2025/07/24 14:27:08 by maborges          #+#    #+#             */
+/*   Updated: 2025/08/20 19:29:48 by maborges         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-int	main(int ac, char **av)
+static void	ft_putstr_err(const char *error)
 {
-	t_table	table;
+	size_t	len;
 
-	if (ac == 5 || ac == 6)
-	{
-		if (parsing_args(av, &table) || data_init(&table))
-			return (1);
-		if (dinner_start(&table)) //TODO
-			return (1);
-		if (destroy_and_clean(&table)) //TODO
-			return (1);
-	}
-	else
-		return (error_msg("Usage: must have 4 or 5 args\n"), 1);
+	len = 0;
+	while (error[len])
+		len++;
+	write(2, error, len);
+}
 
-	return (0);
+void	error_msg(const char *error)
+{
+	write(2, RED, 5);
+	write(2, "Error:\n", 7);
+	write(2, RESET, 4);
+	ft_putstr_err(error);
+	write(2, "\n", 1);
 }

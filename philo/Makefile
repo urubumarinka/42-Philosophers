@@ -12,7 +12,10 @@ SRCS = \
 ./srcs/utils.c \
 ./srcs/parsing.c \
 ./srcs/data_init.c \
-./srcs/safe_handlers.c
+./srcs/safe_handlers.c \
+./srcs/dinner_start.c \
+./srcs/routine.c \
+./srcs/cleanup.c
 
 OBJS = $(SRCS:.c=.o)
 

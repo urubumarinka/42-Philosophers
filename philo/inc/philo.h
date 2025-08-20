@@ -6,7 +6,7 @@
 /*   By: maborges <maborges@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 12:41:51 by maborges          #+#    #+#             */
-/*   Updated: 2025/08/18 18:54:50 by maborges         ###   ########.fr       */
+/*   Updated: 2025/08/20 20:04:40 by maborges         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <unistd.h> // write, usleep
 # include <stdbool.h> // boolean
 # include <pthread.h> // threads: create join detach ;mutex: init dstry (un)lock
+# include <stdatomic.h> //
 # include <sys/time.h> // gettimeofday
 # include <limits.h> //INT_MAX
 # include <errno.h> // handle system call errors
@@ -60,6 +61,16 @@ typedef enum opcode
 	DETACH
 }	t_opcode;
 
+// to be send to syncronized log print
+typedef enum e_action
+{
+	A_TAKE_FORK,
+	A_EAT,
+	A_SLEEP,
+	A_THINK,
+	A_DIED
+}	t_action;
+
 //=============================================================================/
 //								STRUCTS                                        /
 //=============================================================================/
@@ -76,30 +87,31 @@ typedef struct s_fork
 
 typedef struct s_philo
 {
-	int			id;
-	long		nbr_meals;
-	bool		full;
-	long		last_meal; //time passed from last meal
-	t_fork		*left_fork;
-	t_fork		*right_fork;
-	pthread_t	thread_id; // a philo is a thread
-	t_table		*table;
+	int					id;
+	long				nbr_meals;
+	bool				full;
+	long				last_meal; //time passed from last meal
+	t_fork				*left_fork;
+	t_fork				*right_fork;
+	pthread_t			thread_id; // a philo is a thread
+	t_table				*table;
 }	t_philo;
 
 //STRUCT TABLE
 
 typedef struct s_table
 {
-	long		philo_nbr;
-	long		time_to_die;
-	long		time_to_eat;
-	long		time_to_sleep;
-	long		nbr_must_eat; //[opt arg] | FLAG if -1
-	long		start_simulation;
-	bool		end_simulation; //when philo dies or all philos full
-	bool		all_threads_ready;
-	t_fork		*forks; //array of forks
-	t_philo		*philos; //array of philos
+	long				philo_nbr;
+	long				time_to_die;
+	long				time_to_eat;
+	long				time_to_sleep;
+	long				nbr_must_eat; //[opt arg] | FLAG if -1
+	long				start_simulation; // Start timestamp in miliseconds
+	pthread_mutex_t		print_lock;
+	_Atomic bool		end_simulation; //when philo dies or all philos full
+	bool				all_threads_ready;
+	t_fork				*forks; //array of forks
+	t_philo				*philos; //array of philos
 }	t_table;
 
 //=============================================================================/
@@ -119,8 +131,17 @@ void		*safe_malloc(size_t size);
 int			parsing_args(char **av, t_table *table);
 long		ft_atol(char *str);
 
-//data_init
+//Inits
 
 int			data_init(t_table *table);
+int			dinner_start(t_table *table);
+
+// time + print helpers
+// to be checked first
+
+long		now_ms(void);
+long		since_start_ms(t_table *table);
+void		print_action(t_table *table, int philo_id, t_action action);
+void		ft_usleep(long ms);
 
 #endif
