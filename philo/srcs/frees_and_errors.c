@@ -6,7 +6,7 @@
 /*   By: maborges <maborges@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:27:08 by maborges          #+#    #+#             */
-/*   Updated: 2025/08/21 18:11:20 by maborges         ###   ########.fr       */
+/*   Updated: 2025/08/21 18:53:14 by maborges         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ static void	ft_putstr_err(const char *error)
 
 void	error_msg(const char *error)
 {
-	write(2, RED, 5);
-	write(2, "Error:\n", 7);
-	write(2, RESET, 4);
+	ft_putstr_err(RED);
+	ft_putstr_err("Error:\n");
+	ft_putstr_err(RESET);
 	ft_putstr_err(error);
 	write(2, "\n", 1);
 }

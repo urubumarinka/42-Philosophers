@@ -6,7 +6,7 @@
 /*   By: maborges <maborges@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 19:05:19 by maborges          #+#    #+#             */
-/*   Updated: 2025/08/21 18:45:46 by maborges         ###   ########.fr       */
+/*   Updated: 2025/08/21 18:51:31 by maborges         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	one_philo_routine(t_table *table)
 	print_action(table, table->philos[0].id, A_TAKE_FORK);
 	ft_usleep(table->time_to_die); //in ms
 	print_action(table, table->philos[0].id, A_DIED);
-	table->end_simulation = true;
 	safe_mutex(&table->forks[0].fork, UNLOCK);
 }
 
