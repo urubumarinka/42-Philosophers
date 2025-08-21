@@ -6,7 +6,7 @@
 /*   By: maborges <maborges@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 19:05:19 by maborges          #+#    #+#             */
-/*   Updated: 2025/08/20 16:06:45 by maborges         ###   ########.fr       */
+/*   Updated: 2025/08/21 18:45:46 by maborges         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 void	one_philo_routine(t_table *table)
 {
 	safe_mutex(&table->forks[0].fork, LOCK);
-	printf("Philosopher %d has taken a fork\n", table->philos[0].id);
-	ft_usleep(table->time_to_die); //TODO in miliseconds
-	printf("Philosopher %d died\n", table->philos[0].id);
+	print_action(table, table->philos[0].id, A_TAKE_FORK);
+	ft_usleep(table->time_to_die); //in ms
+	print_action(table, table->philos[0].id, A_DIED);
 	table->end_simulation = true;
 	safe_mutex(&table->forks[0].fork, UNLOCK);
 }
