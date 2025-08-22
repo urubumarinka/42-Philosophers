@@ -6,7 +6,7 @@
 /*   By: maborges <maborges@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 19:47:22 by maborges          #+#    #+#             */
-/*   Updated: 2025/08/18 19:20:47 by maborges         ###   ########.fr       */
+/*   Updated: 2025/08/22 18:06:02 by maborges         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,10 @@ int	data_init(t_table *table)
 		philo = table->philos + i;
 		philo->id = i + 1;
 		philo->full = false;
-		philo->nbr_meals = 0;
+		philo->meals_eaten = 0;
 		philo->table = table;
 		safe_mutex(&table->forks[i].fork, INIT);
-		table->forks[i].fork_id = i;
+		safe_mutex(&table->philos[i].meal_lock, INIT);
 		assign_forks(philo, table->forks, i);
 	}
 	return (0);

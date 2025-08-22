@@ -6,7 +6,7 @@
 /*   By: maborges <maborges@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 12:41:51 by maborges          #+#    #+#             */
-/*   Updated: 2025/08/20 20:04:40 by maborges         ###   ########.fr       */
+/*   Updated: 2025/08/22 18:04:05 by maborges         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ typedef enum e_action
 typedef struct s_fork
 {
 	t_mtx	fork;
-	int		fork_id;
 }	t_fork;
 
 //STRUCT PHILOSOPHER use: ./philo 5 800 200 200 [5]
@@ -88,9 +87,10 @@ typedef struct s_fork
 typedef struct s_philo
 {
 	int					id;
-	long				nbr_meals;
+	long				meals_eaten;
 	bool				full;
 	long				last_meal; //time passed from last meal
+	t_mtx				meal_lock;
 	t_fork				*left_fork;
 	t_fork				*right_fork;
 	pthread_t			thread_id; // a philo is a thread
@@ -107,11 +107,12 @@ typedef struct s_table
 	long				time_to_sleep;
 	long				nbr_must_eat; //[opt arg] | FLAG if -1
 	long				start_simulation; // Start timestamp in miliseconds
-	pthread_mutex_t		print_lock;
+	t_mtx				print_lock;
 	_Atomic bool		end_simulation; //when philo dies or all philos full
 	bool				all_threads_ready;
 	t_fork				*forks; //array of forks
 	t_philo				*philos; //array of philos
+	pthread_t			*monitor;
 }	t_table;
 
 //=============================================================================/
@@ -143,5 +144,14 @@ long		now_ms(void);
 long		since_start_ms(t_table *table);
 void		print_action(t_table *table, int philo_id, t_action action);
 void		ft_usleep(long ms);
+
+
+// Threads
+
+void		*monitor(void *arg);
+int			dinner_start(t_table *table);
+void		one_philo_routine(t_table *table);
+void		routine(t_table *table);
+
 
 #endif
