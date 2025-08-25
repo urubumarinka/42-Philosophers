@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: maborges <maborges@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/20 19:30:13 by maborges          #+#    #+#             */
-/*   Updated: 2025/08/21 18:42:01 by maborges         ###   ########.fr       */
+/*   Created: 2025/07/24 14:27:08 by maborges          #+#    #+#             */
+/*   Updated: 2025/08/25 16:31:46 by maborges         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ long	since_start_ms(t_table *table)
 }
 
 // Sleep for ms milliseconds with decent precision (avoids long usleep drift)
-void	ft_usleep(long ms)
+int	ft_usleep(long ms, t_table *table)
 {
 	long	remaining;
 	long	end;
@@ -67,10 +67,13 @@ void	ft_usleep(long ms)
 
 	while (now_ms() < end)
 	{
+		if (read_bool(&table->table_mutex, &table->end_simulation) != true)
+			return (1);
 		remaining = end - now_ms();
 		if (remaining > 10)
-			usleep(5000); // 5 ms
+			usleep(remaining * 1000/ 2); // 5 ms
 		else
 			usleep(100); // 0.1 ms to finish
 	}
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: maborges <maborges@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:24:48 by maborges          #+#    #+#             */
-/*   Updated: 2025/08/20 14:58:03 by maborges         ###   ########.fr       */
+/*   Updated: 2025/08/25 13:24:43 by maborges         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ int	main(int ac, char **av)
 	{
 		if (parsing_args(av, &table) || data_init(&table))
 			return (1);
-		if (dinner_start(&table)) //TODO
+		if (dinner_start(&table))
 			return (1);
-		if (destroy_and_clean(&table)) //TODO
+		if (destroy_and_free(&table))
 			return (1);
 	}
 	else

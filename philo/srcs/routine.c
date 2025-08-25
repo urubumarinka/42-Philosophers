@@ -6,7 +6,7 @@
 /*   By: maborges <maborges@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 19:05:19 by maborges          #+#    #+#             */
-/*   Updated: 2025/08/22 17:07:56 by maborges         ###   ########.fr       */
+/*   Updated: 2025/08/25 13:50:33 by maborges         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,6 @@ void	one_philo_routine(t_table *table)
 	safe_mutex(&table->forks[0].fork, UNLOCK);
 }
 
-// Temporary stub to allow compilation until routines are implemented
-static void philo_think(t_table *table, int i)
-{
-	(void)table;
-	(void)i;
-}
 
 void	routine(t_table *table)
 {

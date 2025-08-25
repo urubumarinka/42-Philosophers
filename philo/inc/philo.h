@@ -6,7 +6,7 @@
 /*   By: maborges <maborges@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 12:41:51 by maborges          #+#    #+#             */
-/*   Updated: 2025/08/22 18:04:05 by maborges         ###   ########.fr       */
+/*   Updated: 2025/08/25 13:52:29 by maborges         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ typedef struct s_table
 	long				nbr_must_eat; //[opt arg] | FLAG if -1
 	long				start_simulation; // Start timestamp in miliseconds
 	t_mtx				print_lock;
+	t_mtx				table_mutex;
 	_Atomic bool		end_simulation; //when philo dies or all philos full
 	bool				all_threads_ready;
 	t_fork				*forks; //array of forks
@@ -131,6 +132,10 @@ void		*safe_malloc(size_t size);
 
 int			parsing_args(char **av, t_table *table);
 long		ft_atol(char *str);
+void		write_bool(t_mtx *mutex, bool *new_value, bool value);
+bool		read_bool(t_mtx *mutex, bool *value);
+void		write_long(t_mtx *mutex, long *new_value, long value);
+bool		read_long(t_mtx *mutex, long *value);
 
 //Inits
 
@@ -153,5 +158,8 @@ int			dinner_start(t_table *table);
 void		one_philo_routine(t_table *table);
 void		routine(t_table *table);
 
+// Philosophers actions
+
+void		philo_think(t_table *table, int i);
 
 #endif
